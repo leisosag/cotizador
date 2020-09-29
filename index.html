@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
   <!-- Required meta tags -->
@@ -25,15 +25,17 @@
           </header>
           <div class="row contenido-formulario">
             <div class="col col-md-10 mr-md-auto ml-md-auto">
-              <form action="#" id="cotizar-seguro">
+              <form action="#" id="cotizar-torta">
 
-                <div class="form-group">
+                <div class="form-group pl-3 pr-3">
                   <label for="torta">Torta:</label>
                   <select class="form-control" id="torta">
                     <option value="">- Seleccionar -</option>
                     <option value="1">Coco</option>
                     <option value="2">Brownie</option>
                     <option value="3">Fontana</option>
+                    <option value="4">Cheesecake</option>
+                    <option value="5">Crumble</option>
                   </select>
                 </div>
                 <!-- 
@@ -47,49 +49,25 @@
                 <fieldset class="form-group">
                   <div class="row">
 
-                    <div class="col-6">
+                    <div class="col-6 pl-3">
                       <legend class="col-form-legend col-12">Tamaño</legend>
-                      <div class="col12">
+                      <div class="col12 pl-3">
                         <div class="form-check">
                           <label class="form-check-label">
-                            <input class="form-check-input" type="radio" name="tamaño" value="grande" checked>
+                            <input class="form-check-input" type="radio" name="tamaño" value="Grande" checked>
                             Grande
                           </label>
                         </div>
                         <div class="form-check">
                           <label class="form-check-label">
-                            <input class="form-check-input" type="radio" name="tamaño" value="mediana">
+                            <input class="form-check-input" type="radio" name="tamaño" value="Mediana">
                             Mediana
                           </label>
                         </div>
                         <div class="form-check">
                           <label class="form-check-label">
-                            <input class="form-check-input" type="radio" name="tamaño" value="mini">
+                            <input class="form-check-input" type="radio" name="tamaño" value="Mini">
                             Mini
-                          </label>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="col-6">
-                      <legend class="col-form-legend col-12">Adicionales</legend>
-                      <div class="col12">
-                        <div class="form-check">
-                          <label class="form-check-label">
-                            <input class="form-check-input" type="checkbox" name="adicional" value="chips">
-                            Chips de chocolate
-                          </label>
-                        </div>
-                        <div class="form-check">
-                          <label class="form-check-label">
-                            <input class="form-check-input" type="checkbox" name="adicional" value="dulce de leche">
-                            Dulce de Leche
-                          </label>
-                        </div>
-                        <div class="form-check">
-                          <label class="form-check-label">
-                            <input class="form-check-input" type="checkbox" name="adicional" value="crema">
-                            Crema
                           </label>
                         </div>
                       </div>
@@ -98,13 +76,11 @@
                   </div>
                 </fieldset>
 
-
-
                 <div id="cargando">
-                  <img src="img/spinner.gif">
+                  <img src="img/spinner2.gif" width="60" height="60">
                 </div>
                 <div id="resultado"></div>
-                <div class="form-group">
+                <div class="form-group p-3">
                   <button type="submit" class="btn btn-raised btn-primary">Cotizar
                   </button>
                 </div>
@@ -128,7 +104,7 @@
     crossorigin="anonymous"></script>
   <script>$(document).ready(function () { $('body').bootstrapMaterialDesign(); });</script>
 
-  <script src="js/appes6.js"></script>
+  <script src="js/app.js"></script>
 </body>
 
 </html>

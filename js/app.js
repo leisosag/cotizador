@@ -1,136 +1,161 @@
-// constructor para el seguro
-function Seguro(marca, anio, tipo) {
-    this.marca = marca;
-    this.anio = anio;
-    this.tipo = tipo;
+// CONSTRUCTORES
+function Presupuesto(torta, tamaño) {
+    this.torta = torta;
+    this.tamaño = tamaño;
 }
 
-// cotizacion
-Seguro.prototype.cotizarSeguro = function(informacion) {
-    /* Multiplico el valor base segun la marca
-    1 - Americano = 1.15
-    2 - Asiatico = 1.05
-    3 - Europeo = 1.35
+// realiza la cotizacion con los datos
+Presupuesto.prototype.cotizarTorta = function () {
+    /*
+    1 coco = 100
+    2 brownie = 110
+    3 fontana = 120
+    4 cheesecake = 130
+    5 crumble = 140
     */
-   let cantidad;
-   const base = 2000;
 
-   switch(this.marca) {
-       case '1':
-           cantidad = base*1.15
-           break;
-        case '2':
-            cantidad = base*1.05
-            break;
-        case '3':
-           cantidad = base*1.35
-           break;
-   }
-
-   const diferenciaAnio = new Date().getFullYear()-this.anio;
-   // cada año de diferencia es un 3% menos
-   cantidad -= ((diferenciaAnio*3) * cantidad/100);
-   /* segun tipo de seguro
-   Basico = base + 30%
-   Completo = base + 50%
-   */
-   if(this.tipo === 'basico') {
-       cantidad = cantidad * 1.30;
-   } else {
-       cantidad = cantidad * 1.50;
-   }
-   return cantidad
-}
-
-// todo lo que se muestra en el hmtl
-function Interfaz() {}
-
-// mensaje que se imprime en el html
-Interfaz.prototype.mostrarMensaje = function(mensaje, tipo) {
-    const div = document.createElement('div');
-
-    if(tipo === 'error') {
-        div.classList.add('mensaje', 'error');
-    } else {
-        div.classList.add('mensaje', 'correcto');
-    }
-
-    div.innerHTML = `${mensaje}`;
-    formulario.insertBefore(div, document.querySelector('.form-group'));
-
-    setTimeout(function() {
-        document.querySelector('.mensaje').remove();
-    }, 2000);
-}
-
-// imprime el resultado de la cotizacion
-Interfaz.prototype.mostrarResultado = function(seguro, total) {
-    const resultado = document.getElementById('resultado');
-
-    let marca;
-    switch (seguro.marca) {
+    // precio base
+    let precio;
+    switch (this.torta) {
         case '1':
-            marca = 'Americano';
+            precio = 100;
             break;
         case '2':
-            marca = 'Asiatico';
+            precio = 110;
             break;
         case '3':
-            marca = 'Europeo';
+            precio = 120;
+            break;
+        case '4':
+            precio = 130;
+            break;
+        case '5':
+            precio = 140;
+            break;
+        default:
             break;
     }
 
+    // leer el tamaño
+    /*
+    si es grande +20%
+    si es mediana =
+    si es mini -20%
+    */
+
+    if (this.tamaño === 'grande') {
+        precio *= 1.20;
+    } else if (this.tamaño === 'mini') {
+        precio *= 0.8;
+    }
+
+    return precio;
+}
+
+function UI() { }
+
+// prototype de UI para validar el form
+UI.prototype.mostrarMensaje = (mensaje, tipo) => {
     const div = document.createElement('div');
+
+    // mensaje y su clase por defecto
+    div.textContent = mensaje;
+    div.classList.add('mensaje', 'm-3');
+
+    // segun el tipo
+    (tipo === 'error') ? div.classList.add('error') : div.classList.add('correcto');
+
+    // inserto en HTML
+    const formulario = document.getElementById('cotizar-torta');
+    formulario.insertBefore(div, document.getElementById('resultado'));
+
+    // limpia el mensaje
+    setTimeout(() => {
+        div.remove();
+    }, 1000);
+}
+
+UI.prototype.mostrarResultado = (presupuesto, total) => {
+    const { torta, tamaño } = presupuesto;
+
+    // imprimir el tipo de torta
+    let textoTorta;
+    switch (torta) {
+        case '1':
+            textoTorta = 'Coco'
+            break;
+        case '2':
+            textoTorta = 'Brownie'
+            break;
+        case '3':
+            textoTorta = 'Fontana'
+            break;
+        case '4':
+            textoTorta = 'Cheesecake'
+            break;
+        case '5':
+            textoTorta = 'Crumble'
+            break;
+        default:
+            break;
+    }
+
+    // crear el resultado
+    const div = document.createElement('div');
+    div.classList.add('m-3');
     div.innerHTML = `
-        <p class="header">Tu resumen</p>
-        <p>Marca: ${marca}</p>
-        <p>Año: ${seguro.anio}</p>
-        <p>Tipo de seguro: ${seguro.tipo}</p>
-        <p>Total: $ ${total}</p>
+        <p class="header">Tu cotización</p>
+        <p>Torta: ${textoTorta}</p>
+        <p>Tamaño: ${tamaño}</p>
+        <p>Total: $${total}</p>
     `;
+    const resultadoDiv = document.getElementById('resultado');
+
+    // mostrar spinner
     const spinner = document.querySelector('#cargando img');
     spinner.style.display = 'block';
+
+    // muestra la cotizacion y borra el spinner
     setTimeout(function () {
         spinner.style.display = 'none';
         resultado.appendChild(div);
-    },2000);
+    }, 1000);
 }
 
-// event listeners
-const formulario = document.getElementById('cotizar-seguro');
-formulario.addEventListener('submit', function(e) {
+// instanciar UI
+const ui = new UI();
+
+// EVENT LISTENERS
+eventListeners();
+function eventListeners() {
+    const formulario = document.getElementById('cotizar-torta');
+    formulario.addEventListener('submit', cotizarTorta);
+}
+
+function cotizarTorta(e) {
     e.preventDefault();
-    
-    const marca = document.getElementById('marca');
-    const marcaSeleccionada = marca.options[marca.selectedIndex].value;
-    const anio = document.getElementById('anio');
-    const anioSeleccionado = anio.options[anio.selectedIndex].value;
-    const tipo = document.querySelector('input[name="tipo"]:checked').value;
-    const interfaz = new Interfaz();
+    // leer tipo de torta
+    const torta = document.getElementById('torta').value;
 
-    // revisamos que todos los campos esten completos
-    if (marcaSeleccionada === '' || anioSeleccionado === '' || tipo === '') {
-        interfaz.mostrarMensaje('Faltan datos. Revisa el formulario', 'error');
-    } else {
-        const resultados = document.querySelector('#resultado div')
-        if (resultados != null) {
-            resultados.remove();
-        }
-        const seguro = new Seguro(marcaSeleccionada, anioSeleccionado, tipo);
-        const cantidad = seguro.cotizarSeguro();
-        interfaz.mostrarResultado(seguro, cantidad);
-        interfaz.mostrarMensaje('Cotizando...', 'correcto');
+    // leer tamaño
+    const tamaño = document.querySelector('input[name="tamaño"]:checked').value;
+
+    // validacion del form
+    if (torta === '' || tamaño === '') {
+        ui.mostrarMensaje('Todos los campos son obligatorios', 'error')
+        return;
     }
-});
 
-// agrego la lista de años al html
-const max = new Date().getFullYear();
-const min = max-20;
-const selectAnios = document.getElementById('anio');
+    // limpiar las cotizaciones previas
+    const resultados = document.querySelector('#resultado div');
+    if (resultados != null) {
+        resultados.remove();
+    }
 
-for (let i = max; i >= min; i--) {
-    let option = document.createElement('option');
-    option.value = i;
-    option.innerHTML = i;
-    selectAnios.appendChild(option);
+    // instanciar el presupuesto
+    const presupuesto = new Presupuesto(torta, tamaño);
+    const total = presupuesto.cotizarTorta();
+
+    // utilizar el protoype que va a cotizar
+    ui.mostrarResultado(presupuesto, total);
 }

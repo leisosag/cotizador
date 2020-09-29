@@ -7,7 +7,7 @@ background: linear-gradient(to right, #af86bc, #7A5487);
 background: linear-gradient(to right bottom, #af86bc, #e58eb2, #ffa19c, #ffc087, #ffe785);*/
 }
 .btn.btn-raised.btn-primary {
-    background-color: #00838F!important;
+    background-color: #af86bc!important;
     font-size: 16px;
     width: 100%;
     padding: 15px;
